@@ -6,7 +6,7 @@ header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
- 
+
 // obtém conexão
 include_once '../config/database.php';
  
@@ -17,7 +17,7 @@ $database = new Database();
 $db = $database->getConnection();
  
 $usuario = new Usuario($db);
- 
+
 // recebe dados via POST - Body
 $data = json_decode(file_get_contents("php://input"));
 
@@ -58,5 +58,7 @@ if(
     http_response_code(400);
  
     // mensagem para usuário
-    echo json_encode(array("message" => "Usuário não criado. Dados incompletos."));
+    //echo json_encode(array("message" => "Usuário não criado. Dados incompletos."));
+    echo json_encode(array("message" => $data->nome));
+    
 }

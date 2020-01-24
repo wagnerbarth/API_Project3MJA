@@ -98,5 +98,77 @@ class Usuario{
 
         return false;
     }
+    
+    // atualiza senha do usuário
+    /*
+     {
+	"senha" : "5656",
+	"email" : "sueli@sueli.com"
+     } 
+     */
+    function update(){
+
+        // update query
+        $query = "UPDATE " . $this->table_name . " SET senha = :senha WHERE email = :email";
+        //$query = "UPDATE usuarios SET senha = '1212' WHERE email = 'sueli@sueli.com'";
+
+        // prepara a query
+        $stmt = $this->conn->prepare($query);
+
+        // limpa
+        $this->senha=htmlspecialchars(strip_tags($this->senha)); 
+        $this->email=htmlspecialchars(strip_tags($this->email)); 
+       
+        // atualiza valores
+        $stmt->bindParam(":senha", $this->senha);
+        $stmt->bindParam(":email", $this->email);
+
+        // executa a query
+        if($stmt->execute()){
+            // verifica se registros foram modificados
+            if ($stmt->rowCount() == 1)
+                return true;
+            else {
+                return false;
+            }
+        }
+
+        return false;
+    }
+    
+    // remove usuário
+    /*
+     {
+	"email" : "sueli@sueli.com"
+     } 
+     */
+    function delete(){
+ 
+        // delete query
+        $query = "DELETE FROM " . $this->table_name . " WHERE email = ?";
+
+        // prepara a query
+        $stmt = $this->conn->prepare($query);
+
+        // limpa
+        $this->id=htmlspecialchars(strip_tags($this->id));
+
+        // define o registro a ser excluido
+        $stmt->bindParam(1, $this->email);
+
+        // executa a query
+        if($stmt->execute()){
+            if ($stmt->rowCount() == 1)
+                return true;
+            else {
+                return false;
+            }
+        }
+
+        return false;
+
+    }
+    
+    
 }
 
